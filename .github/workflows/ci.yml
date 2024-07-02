@@ -56,3 +56,5 @@ jobs:
       - name: Test Local Action
         id: test-action
         uses: ./
+        with:
+          version: '2.28.1'

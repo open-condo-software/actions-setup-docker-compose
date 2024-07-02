@@ -19,10 +19,10 @@ export async function runCommand(command: string): Promise<string> {
   return result.trim()
 }
 
-async function install(): Promise<string> {
+async function install(version: string): Promise<string> {
   const system = await runCommand('uname -s')
   const hardware = await runCommand('uname -m')
-  const link = `https://github.com/docker/compose/releases/download/latest/docker-compose-${system}-${hardware}`
+  const link = `https://github.com/docker/compose/releases/download/${version}/docker-compose-${system}-${hardware}`
 
   const packageInstallerPath = await downloadTool(link)
   await exec(`chmod +x ${packageInstallerPath}`)
@@ -40,10 +40,10 @@ async function install(): Promise<string> {
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
-export async function run(): Promise<string> {
+export async function run(version: string): Promise<string> {
   switch (process.platform) {
     case 'linux':
-      return install()
+      return install(version)
     default:
       throw new Error(`Unsupported platform ${process.platform}`)
   }
