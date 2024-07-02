@@ -1,23 +1,13 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
-
-# Add your action's branding here. This will appear on the GitHub Marketplace.
-branding:
-  icon: 'heart'
-  color: 'red'
-
-# Define your inputs here.
+name: 'Setup docker compose'
+description: 'Dowload and setup docker compose system plugin'
+author: 'Ivan Sitnikov <sit7602@gmail.com>'
 inputs:
-  milliseconds:
-    description: 'Your input description here'
-    required: true
-    default: '1000'
-
-# Define your outputs here.
-outputs:
-  time:
-    description: 'Your output description here'
+  version:
+    default: 'v2.28.1'
+    description: 'The version of compose package'
+branding:
+  icon: 'arrow-down'
+  color: 'gray-dark'
 
 runs:
   using: node20
