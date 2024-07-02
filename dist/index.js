@@ -28815,7 +28815,8 @@ const core = __importStar(__nccwpck_require__(2186));
 const main_1 = __nccwpck_require__(399);
 async function bootstrap() {
     try {
-        const path = await (0, main_1.run)();
+        const version = core.getInput('version', { trimWhitespace: true });
+        const path = await (0, main_1.run)(version);
         core.info(`created path for executable ${path}`);
         core.addPath(path);
     }
@@ -28852,10 +28853,10 @@ async function runCommand(command) {
     }
     return result.trim();
 }
-async function install() {
+async function install(version) {
     const system = await runCommand('uname -s');
     const hardware = await runCommand('uname -m');
-    const link = `https://github.com/docker/compose/releases/download/latest/docker-compose-${system}-${hardware}`;
+    const link = `https://github.com/docker/compose/releases/download/${version}/docker-compose-${system}-${hardware}`;
     const packageInstallerPath = await (0, tool_cache_1.downloadTool)(link);
     await (0, exec_1.exec)(`chmod +x ${packageInstallerPath}`);
     const cachePath = await (0, tool_cache_1.cacheFile)(packageInstallerPath, 'docker compose', 'docker compose', 'latest');
@@ -28865,10 +28866,10 @@ async function install() {
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
-async function run() {
+async function run(version) {
     switch (process.platform) {
         case 'linux':
-            return install();
+            return install(version);
         default:
             throw new Error(`Unsupported platform ${process.platform}`);
     }
