@@ -3,7 +3,7 @@ description: 'Dowload and setup docker compose system plugin'
 author: 'Ivan Sitnikov <sit7602@gmail.com>'
 inputs:
   version:
-    default: '2.28.1'
+    default: 'v2.28.1'
     description: 'The version of compose package'
 branding:
   icon: 'arrow-down'
