@@ -1,26 +1,50 @@
 import * as core from '@actions/core'
-import { wait } from './wait'
+import { exec } from '@actions/exec'
+import { cacheFile, downloadTool } from '@actions/tool-cache'
+
+export async function runCommand(command: string): Promise<string> {
+  let result = ''
+
+  const execResult = await exec(command, [], {
+    listeners: {
+      stdout: (data: Buffer) => {
+        result += data.toString()
+      }
+    }
+  })
+
+  if (execResult !== 0) {
+    throw new Error(`Failed to exec command ${command}`)
+  }
+  return result.trim()
+}
+
+async function install(): Promise<string> {
+  const system = await runCommand('uname -s')
+  const hardware = await runCommand('uname -m')
+  const link = `https://github.com/docker/compose/releases/download/latest/docker-compose-${system}-${hardware}`
+
+  const packageInstallerPath = await downloadTool(link)
+  await exec(`chmod +x ${packageInstallerPath}`)
+
+  const cachePath = await cacheFile(
+    packageInstallerPath,
+    'docker compose',
+    'docker compose',
+    'latest'
+  )
+  return cachePath
+}
 
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
-export async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
-
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
-
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    // Fail the workflow run if an error occurs
-    if (error instanceof Error) core.setFailed(error.message)
+export async function run(): Promise<string> {
+  switch (process.platform) {
+    case 'linux':
+      return install()
+    default:
+      throw new Error(`Unsupported platform ${process.platform}`)
   }
 }
