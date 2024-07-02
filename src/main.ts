@@ -28,8 +28,8 @@ async function install(version: string): Promise<string> {
 
   const cachePath = await cacheFile(
     packageInstallerPath,
-    'docker compose',
-    'docker compose',
+    'docker-compose',
+    'docker-compose',
     'latest'
   )
   return cachePath

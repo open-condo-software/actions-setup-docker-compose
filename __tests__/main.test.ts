@@ -15,7 +15,7 @@ describe('run', () => {
     const commandPath = await run('v2.27.1')
     core.addPath(commandPath)
 
-    const result = await runCommand('docker compose version')
+    const result = await runCommand('docker-compose version')
     expect(result).not.toBeFalsy()
   })
 })

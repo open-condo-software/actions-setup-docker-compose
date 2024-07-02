@@ -28859,7 +28859,7 @@ async function install(version) {
     const link = `https://github.com/docker/compose/releases/download/${version}/docker-compose-${system}-${hardware}`;
     const packageInstallerPath = await (0, tool_cache_1.downloadTool)(link);
     await (0, exec_1.exec)(`chmod +x ${packageInstallerPath}`);
-    const cachePath = await (0, tool_cache_1.cacheFile)(packageInstallerPath, 'docker compose', 'docker compose', 'latest');
+    const cachePath = await (0, tool_cache_1.cacheFile)(packageInstallerPath, 'docker-compose', 'docker-compose', 'latest');
     return cachePath;
 }
 /**
