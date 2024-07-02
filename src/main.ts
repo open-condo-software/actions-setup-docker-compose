@@ -1,4 +1,3 @@
-import * as core from '@actions/core'
 import { exec } from '@actions/exec'
 import { cacheFile, downloadTool } from '@actions/tool-cache'
 

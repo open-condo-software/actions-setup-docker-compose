@@ -1,7 +1,7 @@
 import { runCommand, run } from '../src/main'
 import * as core from '@actions/core'
 
-import { describe, expect, it, test } from '@jest/globals'
+import { describe, expect, it } from '@jest/globals'
 
 describe('runCommand', () => {
   it('run a command and return stdout result', async () => {
